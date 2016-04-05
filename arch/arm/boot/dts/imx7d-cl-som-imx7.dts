@@ -41,27 +41,7 @@
 			enable-active-high;
 		};
 
-		reg_phy1_nreset: regulator@1 {
-			compatible = "regulator-fixed";
-			regulator-name = "fec1_phy_nreset";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-			gpio = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-			enable-active-high;
-			regulator-always-on;
-		};
-
-		reg_phy2_nreset: regulator@2 {
-			compatible = "regulator-fixed";
-			regulator-name = "fec2_phy_nreset";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-			gpio = <&pca9555 4 GPIO_ACTIVE_HIGH>;
-			enable-active-high;
-			regulator-always-on;
-		};
-
-		tsc2046reg: regulator@3 {
+		tsc2046reg: regulator@1 {
 			compatible = "regulator-fixed";
 			regulator-name = "tsc2046-reg";
 			regulator-min-microvolt = <3300000>;
@@ -149,6 +129,8 @@
 &fec1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_enet1>;
+	depends = "/soc/aips-bus@30800000/i2c@30a30000/pca9555@20";
+	pinctrl-assert-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH> , <&pca9555 4 GPIO_ACTIVE_HIGH>;
 	assigned-clocks = <&clks IMX7D_ENET1_TIME_ROOT_SRC>,
 			  <&clks IMX7D_ENET1_TIME_ROOT_CLK>;
 	assigned-clock-parents = <&clks IMX7D_PLL_ENET_MAIN_100M_CLK>;
