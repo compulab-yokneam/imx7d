@@ -517,7 +517,9 @@ static int imx6_pcie_wait_for_link(struct pcie_port *pp)
 
 		if (!IS_ENABLED(CONFIG_PCI_IMX6_COMPLIANCE_TEST)) {
 			clk_disable_unprepare(imx6_pcie->pcie);
-			clk_disable_unprepare(imx6_pcie->pcie_bus);
+			if (!IS_ENABLED(CONFIG_EP_MODE_IN_EP_RC_SYS) &&
+			    !IS_ENABLED(CONFIG_RC_MODE_IN_EP_RC_SYS))
+				clk_disable_unprepare(imx6_pcie->pcie_bus);
 			clk_disable_unprepare(imx6_pcie->pcie_phy);
 			if (is_imx6sx_pcie(imx6_pcie))
 				clk_disable_unprepare(imx6_pcie->pcie_inbound_axi);
