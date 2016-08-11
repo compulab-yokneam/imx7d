@@ -125,23 +125,28 @@
 		simple-audio-card,frame-master = <&sound_master>;
 		/*simple-audio-card,bitclock-inversion;*/
 
+		assigned-clocks = <&clks IMX7D_AUDIO_MCLK_ROOT_SRC>,
+			          <&clks IMX7D_AUDIO_MCLK_ROOT_CLK>;
+		assigned-clock-parents = <&clks IMX7D_PLL_AUDIO_POST_DIV>;
+		assigned-clock-rates = <0>, <12288000>;
+
 		sound_master: simple-audio-card,cpu {
 			sound-dai = <&sai1 0>;
-			system-clock-direction = "in";
+			system-clock-direction = "out";
 		};
 
 		simple-audio-card,codec {
 			sound-dai = <&wm8731>;
-			system-clock-type = "xtal";
-			system-clock-frequency = <12000000>;
-			system-clock-direction = "out";
+			system-clock-type = "mclk";
+			system-clock-frequency = <12288000>;
+			system-clock-direction = "in";
 		};
 	};
 };
 
 &clks {
 	assigned-clocks = <&clks IMX7D_PLL_AUDIO_POST_DIV>;
-	assigned-clock-rates = <786432000>;
+	assigned-clock-rates = <884736000>;
 };
 
 &cpu0 {
@@ -439,7 +444,7 @@
 
 		pinctrl_sai1_lpsr: sai1grp_lpsr {
 			fsl,pins = <
-				MX7D_PAD_GPIO1_IO01__SAI1_MCLK		0x14
+				MX7D_PAD_GPIO1_IO01__SAI1_MCLK			0x14
 			>;
 		};
 
@@ -552,6 +557,8 @@
 		#sound-dai-cells = <0>;
 		compatible = "wlf,wm8731";
 		reg = <0x1a>;
+		clocks = <&clks IMX7D_AUDIO_MCLK_ROOT_CLK>;
+		clock-names = "mclk";
 		status = "okay";
 	};
 
@@ -581,7 +588,7 @@
 	assigned-clocks = <&clks IMX7D_SAI1_ROOT_SRC>,
 			  <&clks IMX7D_SAI1_ROOT_CLK>;
 	assigned-clock-parents = <&clks IMX7D_PLL_AUDIO_POST_DIV>;
-	assigned-clock-rates = <0>, <12288000>;
+	assigned-clock-rates = <0>, <36864000>;
 	status = "okay";
 };
 
