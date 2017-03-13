@@ -293,6 +293,11 @@
 	status = "okay";
 };
 
+&ocrams {
+	fsl,enable-lpsr;
+	status = "okay";
+};
+
 &i2c1 {
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
@@ -302,6 +307,7 @@
 	pmic: pfuze3000@08 {
 		compatible = "fsl,pfuze3000";
 		reg = <0x08>;
+		fsl,lpsr-mode;
 
 		regulators {
 			sw1a_reg: sw1a {
