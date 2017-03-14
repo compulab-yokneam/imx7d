@@ -669,3 +669,8 @@
 	non-removable;
 	status = "okay";
 };
+
+/* Serial irq#{26;28} and usbotg1 wake up interrupt */
+&gpc {
+	fsl,mf-mix-wakeup-irq = <0x14000000 0x800 0x0 0x0>;
+};
