@@ -125,6 +125,40 @@ static inline void imx7d_disable_arm_arch_timer(void)
 	}
 }
 
+#if CONFIG_KGDB
+#include <linux/irq.h>
+#include <linux/interrupt.h>
+#include <linux/gpio.h>
+#include "hardware.h"
+#define	KGDB_GPIO IMX_GPIO_NR(1,8) /* SB-SOM P4.23 */
+int KDB_ON=0;
+int KDB_ON_CNT=100;
+EXPORT_SYMBOL(KDB_ON);
+EXPORT_SYMBOL(KDB_ON_CNT);
+
+void kgdb_breakpoint(void);
+
+static irqreturn_t irq_handler(int irq, void *dev_id) {
+	static int count=0;
+	printk(KERN_DEBUG "interrupt received (irq[%d]: %d)\n", count++, irq);
+	if (KDB_ON ||(count > KDB_ON_CNT))
+		kgdb_breakpoint();
+	return IRQ_HANDLED;
+}
+
+static void cl_som_imx7_kdb(void) {
+	int ret;
+
+	ret = request_irq(gpio_to_irq(KGDB_GPIO), irq_handler,
+			IRQF_TRIGGER_FALLING, "irq_kgdb", NULL);
+
+	if (ret)
+		printk(KERN_ERR
+			"imx7d: Failed to request irq for kdb\n");
+}
+#else
+static void cl_som_imx7_kdb(void){};
+#endif
 static void __init imx7d_init_machine(void)
 {
 	struct device *parent;
@@ -137,6 +171,7 @@ static void __init imx7d_init_machine(void)
 	imx7d_pm_init();
 	imx_anatop_init();
 	imx7d_enet_init();
+	cl_som_imx7_kdb();
 }
 
 static void __init imx7d_init_irq(void)

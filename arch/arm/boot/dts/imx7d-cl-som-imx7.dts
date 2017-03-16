@@ -432,6 +432,7 @@
 		pinctrl_hog_lpsr: hoggrp_lpsr {
 			fsl,pins = <
 				MX7D_PAD_GPIO1_IO04__GPIO1_IO4			0x34 /* FEC1 Phy nReset */
+				MX7D_PAD_GPIO1_IO08__GPIO1_IO8			0x14 /* KDB Enter P4.23 */
 			>;
 		};
 
