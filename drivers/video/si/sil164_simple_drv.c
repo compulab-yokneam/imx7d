@@ -225,11 +225,24 @@ static struct i2c_device_id sil164_ids[] = {
 };
 MODULE_DEVICE_TABLE(i2c, sil164_ids);
 
+#ifdef CONFIG_PM_SLEEP
+static int sil164_resume(struct device *dev)
+{
+	struct i2c_client *client = to_i2c_client(dev);
+	return sil164_probe(client, NULL);
+}
+#endif
+
+static SIMPLE_DEV_PM_OPS(sil164_pm, NULL, sil164_resume);
+
 static struct i2c_driver sil164_simple_driver = {
 		.probe = sil164_probe,
 		.remove = sil164_remove,
 		.driver = {
 			.name = "sil164_simple",
+#ifdef CONFIG_PM_SLEEP
+			.pm	= &sil164_pm,
+#endif
 		},
 		.id_table = sil164_ids,
 };
