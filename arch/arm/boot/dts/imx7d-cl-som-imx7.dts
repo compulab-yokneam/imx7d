@@ -215,8 +215,9 @@
 };
 
 &fec1 {
-	pinctrl-names = "default";
+	pinctrl-names = "default","sleep";
 	pinctrl-0 = <&pinctrl_enet1>;
+	pinctrl-1 = <&pinctrl_enet1>;
 	depends = "/soc/aips-bus@30800000/i2c@30a30000/pca9555@20";
 	pinctrl-assert-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH> , <&pca9555 4 GPIO_ACTIVE_HIGH>;
 	assigned-clocks = <&clks IMX7D_ENET1_TIME_ROOT_SRC>,
@@ -245,8 +246,9 @@
 };
 
 &fec2 {
-	pinctrl-names = "default";
+	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&pinctrl_enet2>;
+	pinctrl-1 = <&pinctrl_enet2>;
 	assigned-clocks = <&clks IMX7D_ENET2_TIME_ROOT_SRC>,
 			  <&clks IMX7D_ENET2_TIME_ROOT_CLK>;
 	assigned-clock-parents = <&clks IMX7D_PLL_ENET_MAIN_100M_CLK>;
@@ -464,8 +466,9 @@
 
 &i2c2 {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
+	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&pinctrl_i2c2>;
+	pinctrl-1 = <&pinctrl_i2c2>;
 	status = "okay";
 
 	pmic: pmic@8 {
@@ -638,8 +641,9 @@
 };
 
 &usdhc2 {
-	pinctrl-names = "default";
+	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&pinctrl_usdhc2>;
+	pinctrl-1 = <&pinctrl_usdhc2>;
 	cd-gpios = <>;
 	wp-gpios = <>;
 	no-1-8-v;
@@ -661,8 +665,9 @@
 };
 
 &usdhc3 {
-	pinctrl-names = "default";
+	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&pinctrl_usdhc3>;
+	pinctrl-1 = <&pinctrl_usdhc3>;
 	assigned-clocks = <&clks IMX7D_USDHC3_ROOT_CLK>;
 	assigned-clock-rates = <400000000>;
 	bus-width = <8>;
