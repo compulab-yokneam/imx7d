@@ -357,10 +357,20 @@ static int sn65dsi_configure(void)
 	return 0;
 }
 
+#define __ALWAYS_ON__
 int sn65dsi83_lcd_setup(struct mipi_dsi_info *mipi_dsi)
 {
 	struct device dev = mipi_dsi->pdev->dev;
+#ifdef __ALWAYS_ON__
+	static int _setup = 0;
+#endif
 	dev_notice(&dev, "MIPI DSI LCD setup.\n");
+
+#ifdef __ALWAYS_ON__
+	if (_setup)
+		return 0;
+	_setup = 1;
+#endif
 
 	sn65dsi_power_on();
 	sn65dsi_configure();
@@ -371,7 +381,16 @@ int sn65dsi83_lcd_setup(struct mipi_dsi_info *mipi_dsi)
 int sn65dsi83_lcd_start(struct mipi_dsi_info *mipi_dsi)
 {
 	struct device dev = mipi_dsi->pdev->dev;
+#ifdef __ALWAYS_ON__
+	static int _start = 0;
+#endif
 	dev_notice(&dev, "MIPI DSI LCD start.\n");
+
+#ifdef __ALWAYS_ON__
+	if (_start)
+		return 0;
+	_start = 1;
+#endif
 
 	sn65dsi_start_stream();
 
@@ -381,7 +400,16 @@ int sn65dsi83_lcd_start(struct mipi_dsi_info *mipi_dsi)
 int sn65dsi83_lcd_stop(struct mipi_dsi_info *mipi_dsi)
 {
 	struct device dev = mipi_dsi->pdev->dev;
+#ifdef __ALWAYS_ON__
+	static int _stop = 1;
+#endif
 	dev_notice(&dev, "MIPI DSI LCD stop.\n");
+
+#ifdef __ALWAYS_ON__
+	if (_stop)
+		return 0;
+	_stop = 1;
+#endif
 
 	sn65dsi_stop_stream();
 	sn65dsi_power_off();
