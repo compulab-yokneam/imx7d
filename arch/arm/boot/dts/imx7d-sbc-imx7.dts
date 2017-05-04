@@ -27,6 +27,15 @@
 		status = "okay";
 	};
 
+
+	mipi_dsi_reset: mipi-dsi-reset {
+		compatible = "gpio-reset";
+		reset-gpios = <&gpio1 8 GPIO_ACTIVE_LOW>; /* Unused gpio - routed to P4_21 */
+		reset-delay-us = <100>;
+		#reset-cells = <0>;
+	};
+
+
 	regulators {
 		reg_dvi_en_3v3: dvi_en_3v3 {
 			compatible = "regulator-fixed";
@@ -43,6 +52,13 @@
 			enable-active-high;
 			regulator-always-on;
 		};
+
+		reg_mipi_dsi_pwr_on: mipi_dsi_pwr_on {
+			compatible = "regulator-fixed";
+			regulator-name = "mipi_dsi_pwr_on";
+			gpio = <&gpio1 9 GPIO_ACTIVE_HIGH>;  /* Unused gpio - routed to P4_23 */
+			enable-active-high;
+                };
 	};
 };
 
