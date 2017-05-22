@@ -7,7 +7,7 @@
 [source,console] 
 $: export IMX7D=~/development/cl-som-imx7
 $: mkdir -p ${IMX7D}/{kernel,rootfs}
-$: git clone https://github.com/compulab-yokneam/imx7d.git ${IMX7D}/kernel
+$: git clone --branch cl-som-imx7-lvds https://github.com/compulab-yokneam/imx7d.git ${IMX7D}/kernel
 
 ### Building the kernel
 [source,console]
