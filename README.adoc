@@ -1,0 +1,29 @@
+# imx7d
+
+## Kernel build how to
+
+### Clone the source kernel tree
+
+[source,console] 
+$: export IMX7D=~/development/cl-som-imx7
+$: mkdir -p ${IMX7D}/{kernel,rootfs}
+$: git clone https://github.com/compulab-yokneam/imx7d.git ${IMX7D}/kernel
+
+### Building the kernel
+[source,console]
+$: cd ${IMX7D}/kernel
+$: export ARCH=arm
+$: export CROSS_COMPILE=arm-none-linux-eabi-
+$: export DTB="imx7d-cl-som-imx7-lvds.dtb"
+$: make cl_som_imx7_defconfig
+$: make menuconfig
+$: make zImage modules ${DTB} && INSTALL_MOD_PATH=${IMX7D}/rootfs make modules_install
+
+### U-Boot environment
+
+Follow instruction of this chapter
+http://mediawiki.compulab.com/w/index.php5/CL-SOM-iMX7:_Linux:_Kernel#U-Boot_Environment[U-Boot environment] except for `Device Tree Blob`
+
+### Devicet Tree Blob
+[source,console]
+setenv fdt_file imx7d-sbc-imx7-lvds.dtb
